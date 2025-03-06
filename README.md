@@ -1,4 +1,6 @@
-SysConfig is a lightweight microservice designed to centralize application configurations. It provides a RESTful API built with Go, using the Gin framework and SQLite as the database.
+# SysConfig
+
+ysConfig is a lightweight microservice designed to centralize application configurations. It provides a RESTful API built with Go, using the Gin framework and SQLite as the database.
 
 ## Features
 Centralized configuration management
