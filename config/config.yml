@@ -1,0 +1,10 @@
+app:
+  name: "CodeHive"
+
+server:
+  host: "localhost"
+  port: "9091"
+
+dataBase:
+  typeDatabase: "sqlite"
+  stringConnection: "SysConfig.db"
