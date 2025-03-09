@@ -37,10 +37,10 @@ func (r *AgentRepositoryImpl) UpdateAgent(ctx context.Context, id uint64, agent 
 	if err := r.db.WithContext(ctx).First(&existingAgent, id).Error; err != nil {
 		return err
 	}
-	_ = copier.Copy(&existingAgent, &agent)
+	_ = copier.CopyWithOption(&existingAgent, &agent, copier.Option{IgnoreEmpty: true})
 	agent.EditDate = time.Now()
 
-	if err := r.db.WithContext(ctx).Updates(&existingAgent).Error; err != nil {
+	if err := r.db.WithContext(ctx).Model(&existingAgent).Where("id = ?", id).Updates(existingAgent).Error; err != nil {
 		return err
 	}
 	return nil
