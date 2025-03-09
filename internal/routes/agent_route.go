@@ -13,6 +13,7 @@ func RegisterRouteAgent(r *gin.Engine, db *gorm.DB) {
 	s := services.NewAgentServiceImpl(rep)
 	h := handlers.NewAgentHandlerImpl(s)
 	r.GET("/agents", h.GetAgents)
+	r.GET("/agent/:id", h.GetAgentById)
 	r.POST("/agent", h.CreateAgent)
 	r.PUT("/agent", h.UpdateAgent)
 }

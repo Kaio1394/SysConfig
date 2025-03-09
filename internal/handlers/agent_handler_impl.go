@@ -80,3 +80,24 @@ func (h *AgentHandlerImpl) UpdateAgent(c *gin.Context) {
 		"message": "agent updated",
 	})
 }
+
+func (h *AgentHandlerImpl) GetAgentById(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.ParseUint(idStr, 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	agent, err := h.s.GetAgentById(context.Background(), id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"agent": agent,
+	})
+}

@@ -10,4 +10,5 @@ type AgentService interface {
 	UpdateAgent(ctx context.Context, id uint64, agentDto dtos.AgentUpdateDto) error
 	CreateAgent(ctx context.Context, agent models.Agent) (models.Agent, error)
 	GetAgents(ctx context.Context) ([]dtos.AgentReadDto, error)
+	GetAgentById(ctx context.Context, id uint64) (dtos.AgentReadDto, error)
 }

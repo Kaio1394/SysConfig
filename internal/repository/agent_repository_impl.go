@@ -45,3 +45,11 @@ func (r *AgentRepositoryImpl) UpdateAgent(ctx context.Context, id uint64, agent 
 	}
 	return nil
 }
+
+func (r *AgentRepositoryImpl) GetAgentById(ctx context.Context, id uint64) (models.Agent, error) {
+	var agent models.Agent
+	if err := r.db.WithContext(ctx).First(&agent, id).Error; err != nil {
+		return models.Agent{}, err
+	}
+	return agent, nil
+}

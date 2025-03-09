@@ -38,3 +38,14 @@ func (a *AgentServiceImpl) UpdateAgent(ctx context.Context, id uint64, agentDto 
 	}
 	return nil
 }
+
+func (a *AgentServiceImpl) GetAgentById(ctx context.Context, id uint64) (dtos.AgentReadDto, error) {
+	var agentDto dtos.AgentReadDto
+	agentModel, err := a.r.GetAgentById(ctx, id)
+	if err != nil {
+		return dtos.AgentReadDto{}, err
+	}
+
+	_ = copier.CopyWithOption(&agentDto, agentModel, copier.Option{IgnoreEmpty: true})
+	return agentDto, nil
+}
