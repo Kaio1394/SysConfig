@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"SysConfig/internal/models"
+	"SysConfig/internal/models/dtos"
 	"SysConfig/internal/services"
 	"context"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type AgentHandlerImpl struct {
@@ -45,7 +47,36 @@ func (h *AgentHandlerImpl) GetAgents(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"agents": agents,
+	})
+}
+
+func (h *AgentHandlerImpl) UpdateAgent(c *gin.Context) {
+	var a dtos.AgentUpdateDto
+
+	idStr := c.GetHeader("id")
+	id, err := strconv.ParseUint(idStr, 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	if err := c.ShouldBindJSON(&a); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	if err := h.s.UpdateAgent(context.Background(), id, a); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "agent updated",
 	})
 }

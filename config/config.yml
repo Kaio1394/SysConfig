@@ -3,8 +3,12 @@ app:
 
 server:
   host: "localhost"
-  port: "9091"
+  port: 9091
 
 dataBase:
   typeDatabase: "sqlite"
   stringConnection: "SysConfig.db"
+
+redis:
+  host: "localhost"
+  port: 6379

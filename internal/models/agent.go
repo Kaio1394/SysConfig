@@ -4,6 +4,7 @@ import "time"
 
 type Agent struct {
 	Id        int       `json:"id" gorm:"primaryKey"`
+	Tag       string    `json:"tag" gorm:"not null"`
 	Host      string    `json:"host" gorm:"not null"`
 	Port      int       `json:"port" gorm:"not null"`
 	EditDate  time.Time `gorm:"autoUpdateTime"`
