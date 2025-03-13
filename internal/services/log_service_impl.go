@@ -39,3 +39,7 @@ func (s *LogServiceImpl) UpdateConfigLog(ctx context.Context, id int, logDto dto
 
 	return s.repo.UpdateConfigLog(ctx, &logModel)
 }
+
+func (s *LogServiceImpl) GetConfigLogById(ctx context.Context, id int) (models.Log, error) {
+	return s.repo.GetConfigLogById(ctx, id)
+}

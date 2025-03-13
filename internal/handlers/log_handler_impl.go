@@ -60,3 +60,21 @@ func (h *LogHandlerImpl) UpdateConfigLog(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
+
+func (h *LogHandlerImpl) GetConfigById(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	log, err := h.s.GetConfigLogById(context.Background(), id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"log": log,
+	})
+}
