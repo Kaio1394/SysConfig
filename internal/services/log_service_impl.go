@@ -29,3 +29,13 @@ func (s *LogServiceImpl) GetConfigLogs(ctx context.Context) ([]dtos.LogReadDto, 
 func (s *LogServiceImpl) CreateConfigLog(ctx context.Context, log models.Log) error {
 	return s.repo.CreateConfigLog(ctx, &log)
 }
+
+func (s *LogServiceImpl) UpdateConfigLog(ctx context.Context, id int, logDto dtos.LogUpdateDto) error {
+	logModel, err := s.repo.GetConfigLogById(ctx, id)
+	if err != nil {
+		return err
+	}
+	_ = copier.CopyWithOption(&logModel, logDto, copier.Option{IgnoreEmpty: true})
+
+	return s.repo.UpdateConfigLog(ctx, &logModel)
+}

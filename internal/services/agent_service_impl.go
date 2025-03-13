@@ -30,9 +30,12 @@ func (a *AgentServiceImpl) GetAgents(ctx context.Context) ([]dtos.AgentReadDto, 
 }
 
 func (a *AgentServiceImpl) UpdateAgent(ctx context.Context, id uint64, agentDto dtos.AgentUpdateDto) error {
-	var agent models.Agent
-	_ = copier.CopyWithOption(&agent, agentDto, copier.Option{IgnoreEmpty: true})
-	err := a.r.UpdateAgent(ctx, id, agent)
+	agentModel, err := a.r.GetAgentById(ctx, id)
+	if err != nil {
+		return err
+	}
+	_ = copier.CopyWithOption(&agentModel, agentDto, copier.Option{IgnoreEmpty: true})
+	err = a.r.UpdateAgent(ctx, agentModel)
 	if err != nil {
 		return err
 	}

@@ -2,9 +2,6 @@ package repository
 
 import (
 	"SysConfig/internal/models"
-	"github.com/jinzhu/copier"
-	"time"
-
 	"context"
 	"gorm.io/gorm"
 )
@@ -32,18 +29,8 @@ func (r *AgentRepositoryImpl) GetAgents(ctx context.Context) ([]models.Agent, er
 	return agents, nil
 }
 
-func (r *AgentRepositoryImpl) UpdateAgent(ctx context.Context, id uint64, agent models.Agent) error {
-	var existingAgent models.Agent
-	if err := r.db.WithContext(ctx).First(&existingAgent, id).Error; err != nil {
-		return err
-	}
-	_ = copier.CopyWithOption(&existingAgent, &agent, copier.Option{IgnoreEmpty: true})
-	agent.EditDate = time.Now()
-
-	if err := r.db.WithContext(ctx).Model(&existingAgent).Where("id = ?", id).Updates(existingAgent).Error; err != nil {
-		return err
-	}
-	return nil
+func (r *AgentRepositoryImpl) UpdateAgent(ctx context.Context, agent models.Agent) error {
+	return r.db.WithContext(ctx).Model(&agent).Where("id = ?", agent.Id).Updates(agent).Error
 }
 
 func (r *AgentRepositoryImpl) GetAgentById(ctx context.Context, id uint64) (models.Agent, error) {
