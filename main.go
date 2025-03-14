@@ -2,6 +2,7 @@ package main
 
 import (
 	"SysConfig/database"
+	"SysConfig/internal/middleware"
 	"SysConfig/internal/routes"
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +16,7 @@ func main() {
 		return
 	}
 	server := gin.Default()
-
+	server.Use(middleware.AuthMiddleware())
 	routes.RegisterRouteAgent(server, dd)
 	routes.RegisterRouteLog(server, dd)
 
