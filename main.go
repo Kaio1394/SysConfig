@@ -13,11 +13,6 @@ import (
 // the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.</p>
 
 func main() {
-	configs, err := config.ConfigSet()
-	if err != nil {
-		panic(err)
-	}
-
 	dd, err := database.ConnectDatabase()
 	if err != nil {
 		return
@@ -26,6 +21,5 @@ func main() {
 	server.Use(middleware.AuthMiddleware())
 	routes.RegisterRouteAgent(server, dd)
 	routes.RegisterRouteLog(server, dd)
-
-	_ = server.Run(":" + strconv.Itoa(configs.Server.Port))
+	_ = server.Run(":" + strconv.Itoa(config.ConfigViper.Server.Port))
 }

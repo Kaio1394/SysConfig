@@ -3,7 +3,7 @@ app:
 
 server:
   host: "localhost"
-  port: 9092
+  port: 9091
 
 dataBase:
   typeDatabase: "sqlite"
@@ -14,6 +14,6 @@ redis:
   port: 6379
 
 configAuth:
-  host: "localhost"
-  port: 8081
+  host: "http://localhost"
+  port: 9092
   endpoint: "/validate/token"

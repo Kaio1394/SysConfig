@@ -4,19 +4,19 @@ import (
 	"github.com/spf13/viper"
 )
 
-func ConfigSet() (Config, error) {
+var ConfigViper Config
+
+func init() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("config")
 
 	if err := viper.ReadInConfig(); err != nil {
-		return Config{}, err
+		return
 	}
-
 	var configs Config
 	if err := viper.Unmarshal(&configs); err != nil {
-		return Config{}, err
+		return
 	}
-
-	return configs, nil
+	ConfigViper = configs
 }
