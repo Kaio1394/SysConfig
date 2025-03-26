@@ -14,7 +14,7 @@ func RequestValidateToken(token string) bool {
 	if err != nil {
 		return false
 	}
-	req.Header.Add("token", token)
+	req.Header.Add("Authorization", token)
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
