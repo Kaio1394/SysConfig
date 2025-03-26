@@ -61,7 +61,7 @@ func (h *LogHandlerImpl) UpdateConfigLog(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
 
-func (h *LogHandlerImpl) GetConfigById(c *gin.Context) {
+func (h *LogHandlerImpl) GetConfigLogById(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {

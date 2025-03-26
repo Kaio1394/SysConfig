@@ -13,7 +13,7 @@ func RegisterRouteLog(r *gin.Engine, db *gorm.DB) {
 	s := services.NewLogServiceImpl(rep)
 	h := handlers.NewLogHandlerImpl(s)
 	r.GET("/logs/config", h.GetConfigLog)
-	r.GET("/logs/config/:id", h.GetConfigById)
+	r.GET("/logs/config/:id", h.GetConfigLogById)
 
 	r.POST("/logs/config", h.CreateConfigLog)
 	r.PUT("/logs/config", h.UpdateConfigLog)

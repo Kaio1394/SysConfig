@@ -5,6 +5,7 @@ type Config struct {
 	Server
 	DataBase
 	Redis
+	ConfigAuth
 }
 type App struct {
 	Name string
@@ -23,4 +24,10 @@ type DataBase struct {
 type Redis struct {
 	Host string
 	Port int
+}
+
+type ConfigAuth struct {
+	Host     string
+	Port     int
+	Endpoint string
 }
