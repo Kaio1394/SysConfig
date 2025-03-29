@@ -78,3 +78,15 @@ func (h *LogHandlerImpl) GetConfigLogById(c *gin.Context) {
 		"log": log,
 	})
 }
+
+func (h *LogHandlerImpl) GetConfigLogByTag(c *gin.Context) {
+	tag := c.GetHeader("tag")
+	log, err := h.s.GetConfigLogByTag(context.Background(), tag)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"log": log,
+	})
+}

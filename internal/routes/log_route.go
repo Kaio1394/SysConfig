@@ -17,4 +17,5 @@ func RegisterRouteLog(r *gin.Engine, db *gorm.DB) {
 
 	r.POST("/logs/config", h.CreateConfigLog)
 	r.PUT("/logs/config", h.UpdateConfigLog)
+	r.GET("/logs/config/tag", h.GetConfigLogByTag)
 }

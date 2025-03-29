@@ -5,6 +5,7 @@ import (
 	"SysConfig/internal/models/dtos"
 	"SysConfig/internal/repository"
 	"context"
+	"errors"
 	"github.com/jinzhu/copier"
 )
 
@@ -42,4 +43,17 @@ func (s *LogServiceImpl) UpdateConfigLog(ctx context.Context, id int, logDto dto
 
 func (s *LogServiceImpl) GetConfigLogById(ctx context.Context, id int) (models.Log, error) {
 	return s.repo.GetConfigLogById(ctx, id)
+}
+
+func (s *LogServiceImpl) GetConfigLogByTag(ctx context.Context, tag string) (dtos.LogReadDto, error) {
+	var dtoModel dtos.LogReadDto
+	if tag == "" {
+		return dtos.LogReadDto{}, errors.New("tag can't be empty")
+	}
+	model, err := s.repo.GetConfigLogByTag(ctx, tag)
+	if err != nil {
+		return dtos.LogReadDto{}, err
+	}
+	_ = copier.CopyWithOption(&dtoModel, &model, copier.Option{IgnoreEmpty: true})
+	return dtoModel, nil
 }

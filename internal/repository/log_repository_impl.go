@@ -37,3 +37,11 @@ func (r *LogRepositoryImpl) GetConfigLogById(ctx context.Context, id int) (model
 	}
 	return log, nil
 }
+
+func (r *LogRepositoryImpl) GetConfigLogByTag(ctx context.Context, tag string) (models.Log, error) {
+	var log models.Log
+	if err := r.db.WithContext(ctx).Where("tag = ?", tag).First(&log).Error; err != nil {
+		return log, err
+	}
+	return log, nil
+}
