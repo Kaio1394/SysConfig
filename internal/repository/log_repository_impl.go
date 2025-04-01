@@ -45,3 +45,6 @@ func (r *LogRepositoryImpl) GetConfigLogByTag(ctx context.Context, tag string) (
 	}
 	return log, nil
 }
+func (r *LogRepositoryImpl) DeleteConfigLogById(ctx context.Context, id int) error {
+	return r.db.WithContext(ctx).Delete(&models.Log{}, id).Error
+}

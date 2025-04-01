@@ -57,3 +57,11 @@ func (s *LogServiceImpl) GetConfigLogByTag(ctx context.Context, tag string) (dto
 	_ = copier.CopyWithOption(&dtoModel, &model, copier.Option{IgnoreEmpty: true})
 	return dtoModel, nil
 }
+
+func (s *LogServiceImpl) DeleteConfigLogById(ctx context.Context, id int) error {
+	_, err := s.repo.GetConfigLogById(ctx, id)
+	if err != nil {
+		return err
+	}
+	return s.repo.DeleteConfigLogById(ctx, id)
+}
