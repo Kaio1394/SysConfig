@@ -46,5 +46,5 @@ func (r *LogRepositoryImpl) GetConfigLogByTag(ctx context.Context, tag string) (
 	return log, nil
 }
 func (r *LogRepositoryImpl) DeleteConfigLogByUuid(ctx context.Context, uuid string) error {
-	return r.db.WithContext(ctx).Delete(&models.Log{}, uuid).Error
+	return r.db.WithContext(ctx).Where("uuid = ?", uuid).Delete(&models.Log{}).Error
 }

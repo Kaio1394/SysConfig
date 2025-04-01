@@ -21,5 +21,6 @@ func main() {
 	server.Use(middleware.AuthMiddleware())
 	routes.RegisterRouteAgent(server, dd)
 	routes.RegisterRouteLog(server, dd)
+	routes.RegisterDatabaseRoute(server, dd)
 	_ = server.Run(":" + strconv.Itoa(config.ConfigViper.Server.Port))
 }

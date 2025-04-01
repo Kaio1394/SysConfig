@@ -30,3 +30,14 @@ func (h *DatabaseHandlerImpl) CreateConfigDatabase(c *gin.Context) {
 		"message": "Successfully created config database",
 	})
 }
+
+func (h *DatabaseHandlerImpl) GetConfigsDatabase(c *gin.Context) {
+	list, err := h.s.GetConfigsDatabase(context.Background())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"configs database": list,
+	})
+}
