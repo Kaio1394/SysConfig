@@ -30,7 +30,7 @@ func (r *AgentRepositoryImpl) GetAgents(ctx context.Context) ([]models.Agent, er
 }
 
 func (r *AgentRepositoryImpl) UpdateAgent(ctx context.Context, agent models.Agent) error {
-	return r.db.WithContext(ctx).Model(&agent).Where("id = ?", agent.Id).Updates(agent).Error
+	return r.db.WithContext(ctx).Model(&agent).Where("uuid = ?", agent.Uuid).Updates(agent).Error
 }
 
 func (r *AgentRepositoryImpl) GetAgentById(ctx context.Context, id uint64) (models.Agent, error) {

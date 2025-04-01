@@ -1,7 +1,7 @@
 package dtos
 
 type AgentReadDto struct {
-	Id   int    `json:"id"`
+	Uuid string `json:"uuid"`
 	Tag  string `json:"tag"`
 	Host string `json:"host"`
 	Port int    `json:"port"`

@@ -31,8 +31,8 @@ func (s *LogServiceImpl) CreateConfigLog(ctx context.Context, log models.Log) er
 	return s.repo.CreateConfigLog(ctx, &log)
 }
 
-func (s *LogServiceImpl) UpdateConfigLog(ctx context.Context, id int, logDto dtos.LogUpdateDto) error {
-	logModel, err := s.repo.GetConfigLogById(ctx, id)
+func (s *LogServiceImpl) UpdateConfigLog(ctx context.Context, uuid string, logDto dtos.LogUpdateDto) error {
+	logModel, err := s.repo.GetConfigLogByUuid(ctx, uuid)
 	if err != nil {
 		return err
 	}
@@ -41,8 +41,8 @@ func (s *LogServiceImpl) UpdateConfigLog(ctx context.Context, id int, logDto dto
 	return s.repo.UpdateConfigLog(ctx, &logModel)
 }
 
-func (s *LogServiceImpl) GetConfigLogById(ctx context.Context, id int) (models.Log, error) {
-	return s.repo.GetConfigLogById(ctx, id)
+func (s *LogServiceImpl) GetConfigLogByUuid(ctx context.Context, uuid string) (models.Log, error) {
+	return s.repo.GetConfigLogByUuid(ctx, uuid)
 }
 
 func (s *LogServiceImpl) GetConfigLogByTag(ctx context.Context, tag string) (dtos.LogReadDto, error) {
@@ -58,10 +58,10 @@ func (s *LogServiceImpl) GetConfigLogByTag(ctx context.Context, tag string) (dto
 	return dtoModel, nil
 }
 
-func (s *LogServiceImpl) DeleteConfigLogById(ctx context.Context, id int) error {
-	_, err := s.repo.GetConfigLogById(ctx, id)
+func (s *LogServiceImpl) DeleteConfigLogByUuid(ctx context.Context, uuid string) error {
+	_, err := s.repo.GetConfigLogByUuid(ctx, uuid)
 	if err != nil {
 		return err
 	}
-	return s.repo.DeleteConfigLogById(ctx, id)
+	return s.repo.DeleteConfigLogByUuid(ctx, uuid)
 }

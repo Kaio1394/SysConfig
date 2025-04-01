@@ -7,7 +7,6 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strconv"
 )
 
 type LogHandlerImpl struct {
@@ -44,32 +43,23 @@ func (h *LogHandlerImpl) GetConfigLog(c *gin.Context) {
 
 func (h *LogHandlerImpl) UpdateConfigLog(c *gin.Context) {
 	var configLog dtos.LogUpdateDto
-	idStr := c.GetHeader("id")
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	uuid := c.GetHeader("uuid")
+
 	if err := c.ShouldBindJSON(&configLog); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := h.s.UpdateConfigLog(context.Background(), id, configLog); err != nil {
+	if err := h.s.UpdateConfigLog(context.Background(), uuid, configLog); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
 
-func (h *LogHandlerImpl) GetConfigLogById(c *gin.Context) {
-	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+func (h *LogHandlerImpl) GetConfigLogByUuid(c *gin.Context) {
+	uuid := c.Param("uuid")
 
-	log, err := h.s.GetConfigLogById(context.Background(), id)
+	log, err := h.s.GetConfigLogByUuid(context.Background(), uuid)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -91,14 +81,10 @@ func (h *LogHandlerImpl) GetConfigLogByTag(c *gin.Context) {
 	})
 }
 
-func (h *LogHandlerImpl) DeleteConfigLogById(c *gin.Context) {
-	idStr := c.GetHeader("id")
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := h.s.DeleteConfigLogById(context.Background(), id); err != nil {
+func (h *LogHandlerImpl) DeleteConfigLogByUuid(c *gin.Context) {
+	uuid := c.GetHeader("uuid")
+
+	if err := h.s.DeleteConfigLogByUuid(context.Background(), uuid); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

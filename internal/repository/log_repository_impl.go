@@ -27,12 +27,12 @@ func (r *LogRepositoryImpl) GetConfigLogs(ctx context.Context) ([]models.Log, er
 }
 
 func (r *LogRepositoryImpl) UpdateConfigLog(ctx context.Context, log *models.Log) error {
-	return r.db.WithContext(ctx).Model(&log).Where("id = ?", log.Id).Updates(log).Error
+	return r.db.WithContext(ctx).Model(&log).Where("uuid = ?", log.Uuid).Updates(log).Error
 }
 
-func (r *LogRepositoryImpl) GetConfigLogById(ctx context.Context, id int) (models.Log, error) {
+func (r *LogRepositoryImpl) GetConfigLogByUuid(ctx context.Context, uuid string) (models.Log, error) {
 	var log models.Log
-	if err := r.db.WithContext(ctx).First(&log, id).Error; err != nil {
+	if err := r.db.WithContext(ctx).Where("uuid = ?", uuid).First(&log).Error; err != nil {
 		return log, err
 	}
 	return log, nil
@@ -45,6 +45,6 @@ func (r *LogRepositoryImpl) GetConfigLogByTag(ctx context.Context, tag string) (
 	}
 	return log, nil
 }
-func (r *LogRepositoryImpl) DeleteConfigLogById(ctx context.Context, id int) error {
-	return r.db.WithContext(ctx).Delete(&models.Log{}, id).Error
+func (r *LogRepositoryImpl) DeleteConfigLogByUuid(ctx context.Context, uuid string) error {
+	return r.db.WithContext(ctx).Delete(&models.Log{}, uuid).Error
 }

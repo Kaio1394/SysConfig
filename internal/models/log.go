@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+	"time"
+)
 
 /*
 PanicLevel = 0
@@ -13,7 +17,7 @@ TraceLevel = 6
 */
 
 type Log struct {
-	Id         int       `json:"id" gorm:"primaryKey"`
+	Uuid       string    `json:"uuid" gorm:"primaryKey"`
 	Tag        string    `json:"tag" gorm:"unique;not null"`
 	FileName   string    `json:"filename" gorm:"unique;not null"`
 	PathDir    string    `json:"path_dir" gorm:"unique;not null"`
@@ -21,6 +25,11 @@ type Log struct {
 	FormatDate string    `json:"format_date" gorm:"not null"`
 	EditDate   time.Time `gorm:"autoUpdateTime"`
 	CreatedAt  time.Time `gorm:"autoCreateTime"`
+}
+
+func (l *Log) BeforeCreate(tx *gorm.DB) (err error) {
+	l.Uuid = uuid.New().String()
+	return
 }
 
 func (Log) TableName() string {
