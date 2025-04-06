@@ -48,3 +48,11 @@ func (s *DatabaseServiceImpl) UpdateConfigDatabase(ctx context.Context, database
 	}
 	return s.r.UpdateConfigDatabase(ctx, &database)
 }
+
+func (s *DatabaseServiceImpl) DeleteConfigDatabase(ctx context.Context, uuid string) error {
+	_, err := s.GetConfigDatabaseByUuid(ctx, uuid)
+	if err != nil {
+		return errors.New("database not found")
+	}
+	return s.r.DeleteConfigDatabase(ctx, uuid)
+}

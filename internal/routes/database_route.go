@@ -17,4 +17,5 @@ func RegisterDatabaseRoute(r *gin.Engine, db *gorm.DB) {
 	r.GET("/database/configs", h.GetConfigsDatabase)
 	r.GET("/database/config", h.GetConfigDatabaseByUuid)
 	r.PUT("/database/config", h.UpdateConfigDatabase)
+	r.DELETE("/database/config", h.DeleteConfigDatabase)
 }

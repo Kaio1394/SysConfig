@@ -71,3 +71,18 @@ func (h *DatabaseHandlerImpl) UpdateConfigDatabase(c *gin.Context) {
 		"message": "Successfully updated config database",
 	})
 }
+
+func (h *DatabaseHandlerImpl) DeleteConfigDatabase(c *gin.Context) {
+	uuid := c.GetHeader("uuid")
+	if uuid == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "uuid is required"})
+		return
+	}
+	if err := h.s.DeleteConfigDatabase(context.Background(), uuid); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Successfully deleted config database",
+	})
+}
