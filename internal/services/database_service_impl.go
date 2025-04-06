@@ -5,6 +5,7 @@ import (
 	"SysConfig/internal/models/dtos"
 	"SysConfig/internal/repository"
 	"context"
+	"errors"
 	"github.com/jinzhu/copier"
 )
 
@@ -28,4 +29,22 @@ func (s *DatabaseServiceImpl) GetConfigsDatabase(ctx context.Context) ([]dtos.Da
 	}
 	_ = copier.CopyWithOption(&configsDto, &configsModel, copier.Option{DeepCopy: true})
 	return configsDto, nil
+}
+
+func (s *DatabaseServiceImpl) GetConfigDatabaseByUuid(ctx context.Context, uuid string) (dtos.DatabaseReadDto, error) {
+	var configDto dtos.DatabaseReadDto
+	configModel, err := s.r.GetConfigDatabaseByUuid(ctx, uuid)
+	if err != nil {
+		return dtos.DatabaseReadDto{}, err
+	}
+	_ = copier.Copy(&configDto, &configModel)
+	return configDto, nil
+}
+
+func (s *DatabaseServiceImpl) UpdateConfigDatabase(ctx context.Context, database models.Database) error {
+	_, err := s.GetConfigDatabaseByUuid(ctx, database.Uuid)
+	if err != nil {
+		return errors.New("database not found")
+	}
+	return s.r.UpdateConfigDatabase(ctx, &database)
 }

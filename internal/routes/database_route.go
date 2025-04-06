@@ -14,5 +14,7 @@ func RegisterDatabaseRoute(r *gin.Engine, db *gorm.DB) {
 	h := handlers.NewDatabaseHandlerImpl(s)
 
 	r.POST("/database/config", h.CreateConfigDatabase)
-	r.GET("/database/config", h.GetConfigsDatabase)
+	r.GET("/database/configs", h.GetConfigsDatabase)
+	r.GET("/database/config", h.GetConfigDatabaseByUuid)
+	r.PUT("/database/config", h.UpdateConfigDatabase)
 }

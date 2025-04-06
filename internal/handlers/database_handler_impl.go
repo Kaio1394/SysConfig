@@ -41,3 +41,33 @@ func (h *DatabaseHandlerImpl) GetConfigsDatabase(c *gin.Context) {
 		"configs database": list,
 	})
 }
+func (h *DatabaseHandlerImpl) GetConfigDatabaseByUuid(c *gin.Context) {
+	uuid := c.GetHeader("uuid")
+	if uuid == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "uuid is required"})
+		return
+	}
+	data, err := h.s.GetConfigDatabaseByUuid(context.Background(), uuid)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"config database": data,
+	})
+}
+
+func (h *DatabaseHandlerImpl) UpdateConfigDatabase(c *gin.Context) {
+	var databaseConfig models.Database
+	if err := c.ShouldBindJSON(&databaseConfig); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := h.s.UpdateConfigDatabase(context.Background(), databaseConfig); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Successfully updated config database",
+	})
+}
