@@ -22,5 +22,6 @@ func main() {
 	routes.RegisterRouteAgent(server, dd)
 	routes.RegisterRouteLog(server, dd)
 	routes.RegisterDatabaseRoute(server, dd)
+	routes.RegisterConfigMonitorRoutes(server, dd)
 	_ = server.Run(":" + strconv.Itoa(config.ConfigViper.Server.Port))
 }

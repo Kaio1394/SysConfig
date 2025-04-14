@@ -56,3 +56,13 @@ func (s *DatabaseServiceImpl) DeleteConfigDatabase(ctx context.Context, uuid str
 	}
 	return s.r.DeleteConfigDatabase(ctx, uuid)
 }
+
+func (s *DatabaseServiceImpl) GetConfigDatabaseByTag(ctx context.Context, tag string) (dtos.DatabaseReadDto, error) {
+	var configDto dtos.DatabaseReadDto
+	configDatabase, err := s.r.GetConfigDatabaseByTag(ctx, tag)
+	if err != nil {
+		return configDto, err
+	}
+	_ = copier.Copy(&configDto, &configDatabase)
+	return configDto, nil
+}

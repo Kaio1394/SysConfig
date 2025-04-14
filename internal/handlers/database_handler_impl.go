@@ -86,3 +86,19 @@ func (h *DatabaseHandlerImpl) DeleteConfigDatabase(c *gin.Context) {
 		"message": "Successfully deleted config database",
 	})
 }
+
+func (h *DatabaseHandlerImpl) GetConfigDatabaseByTag(c *gin.Context) {
+	tag := c.GetHeader("tag")
+	if tag == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "tag is required"})
+		return
+	}
+	configDatabase, err := h.s.GetConfigDatabaseByTag(context.Background(), tag)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"config database": configDatabase,
+	})
+}

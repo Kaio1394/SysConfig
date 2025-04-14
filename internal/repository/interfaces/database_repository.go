@@ -6,8 +6,10 @@ import (
 )
 
 type DataBaseRepository interface {
-	CreateConfigDatabase(ctx context.Context, agent *models.Database) error
+	CreateConfigDatabase(ctx context.Context, database *models.Database) error
 	GetConfigDatabase(ctx context.Context) ([]models.Database, error)
-	//UpdateConfigDatabase(ctx context.Context, id uint64, agent models.Database) error
-	//GetConfigDatabaseById(ctx context.Context, id uint64) (models.Database, error)
+	UpdateConfigDatabase(ctx context.Context, database *models.Database) error
+	GetConfigDatabaseByUuid(ctx context.Context, uuid string) (models.Database, error)
+	GetConfigDatabaseByTag(ctx context.Context, tag string) (models.Database, error)
+	DeleteConfigDatabase(ctx context.Context, uuid string) error
 }

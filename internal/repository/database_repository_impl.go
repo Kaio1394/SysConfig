@@ -36,7 +36,13 @@ func (r *DatabaseRepositoryImpl) GetConfigDatabaseByUuid(ctx context.Context, uu
 	}
 	return database, nil
 }
-
+func (r *DatabaseRepositoryImpl) GetConfigDatabaseByTag(ctx context.Context, tag string) (models.Database, error) {
+	var database models.Database
+	if err := r.db.WithContext(ctx).Where("tag = ?", tag).First(&database).Error; err != nil {
+		return database, err
+	}
+	return database, nil
+}
 func (r *DatabaseRepositoryImpl) DeleteConfigDatabase(ctx context.Context, uuid string) error {
 	return r.db.WithContext(ctx).Where("uuid = ?", uuid).Delete(&models.Database{}).Error
 }

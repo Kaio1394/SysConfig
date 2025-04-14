@@ -55,7 +55,6 @@ func (h *AgentHandlerImpl) GetAgents(c *gin.Context) {
 
 func (h *AgentHandlerImpl) UpdateAgent(c *gin.Context) {
 	var a dtos.AgentUpdateDto
-
 	idStr := c.GetHeader("id")
 	id, err := strconv.ParseUint(idStr, 10, 32)
 	if err != nil {
